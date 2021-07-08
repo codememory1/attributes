@@ -1,0 +1,19 @@
+{
+    "name": "codememory/attributes",
+    "description": "attributes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Danil",
+            "email": "kostynd1@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Codememory\\Components\\Attributes\\": ""
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.3"
+    }
+}
