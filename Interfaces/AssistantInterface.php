@@ -17,13 +17,15 @@ interface AssistantInterface
 {
 
     /**
-     * =>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>
-     * Get an pursued reflector
-     * <=<=<=<=<=<=<=<=<=<=<=<=<=<=<=<=<=<=
+     * =>=>=>=>=>=>=>=>=>=>=>=>=>=>
+     * Establish pursued object
+     * <=<=<=<=<=<=<=<=<=<=<=<=<=<=
      *
-     * @return ReflectionClass
+     * @param string|object $pursued
+     *
+     * @return AssistantInterface
      */
-    public function getReflector(): ReflectionClass;
+    public function setPursued(string|object $pursued): AssistantInterface;
 
     /**
      * =>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>
@@ -33,6 +35,15 @@ interface AssistantInterface
      * @return string
      */
     public function getPursued(): string;
+
+    /**
+     * =>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>
+     * Get an pursued reflector
+     * <=<=<=<=<=<=<=<=<=<=<=<=<=<=<=<=<=<=
+     *
+     * @return ReflectionClass
+     */
+    public function getReflector(): ReflectionClass;
 
     /**
      * =>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>

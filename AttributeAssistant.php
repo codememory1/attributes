@@ -3,9 +3,9 @@
 namespace Codememory\Components\Attributes;
 
 use Codememory\Components\Attributes\Interfaces\AssistantInterface;
-use JetBrains\PhpStorm\Pure;
 use ReflectionClass;
 use ReflectionException;
+use RuntimeException;
 
 /**
  * Class AttributeAssistant
@@ -18,37 +18,26 @@ class AttributeAssistant implements AssistantInterface
 {
 
     /**
-     * @var ReflectionClass
+     * @var ReflectionClass|null
      */
-    private ReflectionClass $reflector;
+    private ?ReflectionClass $reflector = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $pursued;
+    private ?string $pursued = null;
 
     /**
-     * AttributeAssistant constructor.
-     *
-     * @param string|object $pursued
-     *
+     * @inheritDoc
      * @throws ReflectionException
      */
-    public function __construct(string|object $pursued)
+    public function setPursued(object|string $pursued): AssistantInterface
     {
 
         $this->reflector = new ReflectionClass($pursued);
         $this->pursued = $this->reflector->getName();
 
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getReflector(): ReflectionClass
-    {
-
-        return $this->reflector;
+        return $this;
 
     }
 
@@ -65,22 +54,34 @@ class AttributeAssistant implements AssistantInterface
     /**
      * @inheritDoc
      */
-    #[Pure]
-    public function getProperties(): array
+    public function getReflector(): ReflectionClass
     {
 
-        return $this->reflector->getProperties();
+        if (null === $this->reflector) {
+            throw new RuntimeException('It is impossible to get a reflector because the pursued object is not installed');
+        }
+
+        return $this->reflector;
 
     }
 
     /**
      * @inheritDoc
      */
-    #[Pure]
+    public function getProperties(): array
+    {
+
+        return $this->getReflector()->getProperties();
+
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getMethods(): array
     {
 
-        return $this->reflector->getMethods();
+        return $this->getReflector()->getMethods();
 
     }
 
