@@ -6,6 +6,8 @@ use Codememory\Components\Attributes\Interfaces\AssistantInterface;
 use Codememory\Components\Attributes\Interfaces\TargetInterface;
 use JetBrains\PhpStorm\Pure;
 use ReflectionAttribute;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Class AbstractTarget
@@ -70,12 +72,23 @@ abstract class AbstractTarget implements TargetInterface
 
     /**
      * @inheritDoc
+     * @throws ReflectionException
      */
-    #[Pure]
     public function getAttributeArguments(ReflectionAttribute $attribute): array
     {
 
-        return $attribute->getArguments();
+        $attributeName = $attribute->getName();
+        $attributeReflector = new ReflectionClass($attributeName);
+        $reflectionParameters = $attributeReflector->getConstructor()?->getParameters() ?: [];
+        $parameters = [];
+
+        foreach ($reflectionParameters as $reflectionParameter) {
+            if ($reflectionParameter->isOptional()) {
+                $parameters[$reflectionParameter->getName()] = $reflectionParameter->getDefaultValueConstantName();
+            }
+        }
+
+        return array_merge($attribute->getArguments(), $parameters);
 
     }
 
