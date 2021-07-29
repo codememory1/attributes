@@ -80,15 +80,16 @@ abstract class AbstractTarget implements TargetInterface
         $attributeName = $attribute->getName();
         $attributeReflector = new ReflectionClass($attributeName);
         $reflectionParameters = $attributeReflector->getConstructor()?->getParameters() ?: [];
+        $attributeParameters = $attribute->getArguments();
         $parameters = [];
 
         foreach ($reflectionParameters as $reflectionParameter) {
-            if ($reflectionParameter->isOptional()) {
+            if ($reflectionParameter->isOptional() && !array_key_exists($reflectionParameter->getName(), $attributeParameters)) {
                 $parameters[$reflectionParameter->getName()] = $reflectionParameter->getDefaultValueConstantName();
             }
         }
 
-        return array_merge($attribute->getArguments(), $parameters);
+        return array_merge($attributeParameters, $parameters);
 
     }
 
