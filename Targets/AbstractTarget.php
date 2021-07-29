@@ -85,7 +85,7 @@ abstract class AbstractTarget implements TargetInterface
 
         foreach ($reflectionParameters as $reflectionParameter) {
             if ($reflectionParameter->isOptional() && !array_key_exists($reflectionParameter->getName(), $attributeParameters)) {
-                $parameters[$reflectionParameter->getName()] = $reflectionParameter->getDefaultValueConstantName();
+                $parameters[$reflectionParameter->getName()] = $reflectionParameter->getDefaultValue();
             }
         }
 
